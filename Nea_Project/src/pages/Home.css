@@ -1,0 +1,26 @@
+/* src/pages/Home.css */
+.home {
+  display: flex;
+}
+
+.content {
+  margin-left: 260px; /* leave space for sidebar */
+  padding: 20px;
+  flex: 1;
+}
+
+.hero {
+  position: relative;
+}
+
+.hero-img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.hero h1 {
+  margin-top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #001f4d;
+}
