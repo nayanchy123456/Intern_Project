@@ -159,3 +159,40 @@
 .extra-links a:hover {
   text-decoration: underline;
 }
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 50px;   /* moved higher (before was 80px) */
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1200;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #ff6666;   /* red hover */
+}
+
+/* Open button */
+.open-btn {
+  position: fixed;
+  top: 20px;
+  left: 10px;
+  background: #003366;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 1200;
+  transition: background 0.3s ease;
+}
+
+.open-btn:hover {
+  background: #00509e;  /* brighter blue hover */
+}

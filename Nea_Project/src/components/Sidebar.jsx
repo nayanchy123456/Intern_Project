@@ -77,11 +77,10 @@ const EXTRA_MENU = [
     ],
   },
   {
-    key:"affilates",
-    label:"NEA Affiliates",
-     items: ["NEA affilates"],
+    key: "affilates",
+    label: "NEA Affiliates",
+    items: ["NEA Affiliates"],
   },
-
   {
     key: "media",
     label: "Media Center",
@@ -107,6 +106,7 @@ const EXTRA_MENU = [
 export default function Sidebar() {
   const [openMenu, setOpenMenu] = useState(null);
   const [submenuPos, setSubmenuPos] = useState({ top: 0, left: 0 });
+  const [isOpen, setIsOpen] = useState(true);
   const sidebarRef = useRef(null);
 
   useEffect(() => {
@@ -126,77 +126,90 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="sidebar" ref={sidebarRef}>
-      {/* Logo */}
-      <div className="logo">
-        <img src={logo} alt="NEA logo" className="logo-img" />
-      </div>
+    <>
+      {isOpen ? (
+        <aside className="sidebar" ref={sidebarRef}>
+          {/* Logo */}
+          <div className="logo">
+            <img src={logo} alt="NEA logo" className="logo-img" />
+          </div>
 
-      <div className="menu-container">
-        {/* MAIN menu */}
-        <nav className="menu" aria-label="Main navigation">
-          {MAIN_MENU.map((m) => (
+          {/* Close button */}
+          <button className="close-btn" onClick={() => setIsOpen(false)}>
+            ✖
+          </button>
+
+          <div className="menu-container">
+            {/* MAIN menu */}
+            <nav className="menu" aria-label="Main navigation">
+              {MAIN_MENU.map((m) => (
+                <div
+                  className="menu-item"
+                  key={m.key}
+                  onMouseEnter={(e) => handleMouseEnter(e, m.key)}
+                  onMouseLeave={() => setOpenMenu(null)}
+                >
+                  <button className="menu-button">
+                    <span className="menu-label">{m.label}</span>
+                    <span className="caret">▶</span>
+                  </button>
+                </div>
+              ))}
+            </nav>
+
+            {/* Action button */}
+            <div className="action-container">
+              <button className="action-btn">TAKE ACTION ▶</button>
+            </div>
+
+            {/* Search */}
+            <div className="search">
+              <input type="text" placeholder="Search nea.org ..." />
+            </div>
+
+            {/* EXTRA menu */}
+            <div className="extra-menu">
+              {EXTRA_MENU.map((m) => (
+                <div
+                  className="extra-item"
+                  key={m.key}
+                  onMouseEnter={(e) => handleMouseEnter(e, m.key)}
+                  onMouseLeave={() => setOpenMenu(null)}
+                >
+                  <button className="extra-button">
+                    <span className="extra-label">{m.label}</span>
+                    <span className="caret">▶</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <Footer />
+          </div>
+
+          {/* Submenu */}
+          {openMenu && (
             <div
-              className="menu-item"
-              key={m.key}
-              onMouseEnter={(e) => handleMouseEnter(e, m.key)}
+              className="submenu-overlay"
+              style={{ top: submenuPos.top, left: submenuPos.left }}
+              onMouseEnter={() => setOpenMenu(openMenu)}
               onMouseLeave={() => setOpenMenu(null)}
             >
-              <button className="menu-button">
-                <span className="menu-label">{m.label}</span>
-                <span className="caret">▶</span>
-              </button>
+              {(MAIN_MENU.find((m) => m.key === openMenu) ||
+                EXTRA_MENU.find((m) => m.key === openMenu)).items.map((it) => (
+                <a key={it} href="#" className="submenu-link">
+                  {it}
+                </a>
+              ))}
             </div>
-          ))}
-        </nav>
-
-        {/* Action button */}
-        <div className="action-container">
-          <button className="action-btn">TAKE ACTION ▶</button>
-        </div>
-
-        {/* Search */}
-        <div className="search">
-          <input type="text" placeholder="Search nea.org ..." />
-        </div>
-
-        {/* EXTRA menu (smaller style) */}
-        <div className="extra-menu">
-          {EXTRA_MENU.map((m) => (
-            <div
-              className="extra-item"
-              key={m.key}
-              onMouseEnter={(e) => handleMouseEnter(e, m.key)}
-              onMouseLeave={() => setOpenMenu(null)}
-            >
-              <button className="extra-button">
-                <span className="extra-label">{m.label}</span>
-                <span className="caret">▶</span>
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <Footer />
-      </div>
-
-      {/* Submenu */}
-      {openMenu && (
-        <div
-          className="submenu-overlay"
-          style={{ top: submenuPos.top, left: submenuPos.left }}
-          onMouseEnter={() => setOpenMenu(openMenu)}
-          onMouseLeave={() => setOpenMenu(null)}
-        >
-          {(MAIN_MENU.find((m) => m.key === openMenu) ||
-            EXTRA_MENU.find((m) => m.key === openMenu)).items.map((it) => (
-            <a key={it} href="#" className="submenu-link">
-              {it}
-            </a>
-          ))}
-        </div>
+          )}
+        </aside>
+      ) : (
+        <button className="open-btn" onClick={() => setIsOpen(true)}>
+          ☰
+        </button>
       )}
-    </aside>
+    </>
   );
 }
